@@ -274,7 +274,7 @@ const atTheOldToad = {
   }
   return this.potions.push(newPotion);
  },
- removePotion(potionName) {
+ removePotion(potionName) { //usuwanie potki
   for (const potion of this.potions) {
    const potionIndex = this.potions.indexOf(potion);
   if (potionIndex === -1) {
@@ -330,7 +330,7 @@ function makePizza(pizzaName, callback) {
   console.log(`Pizza ${pizzaName} is being prepared, please wait...`);
   callback(pizzaName);
 }
-
+/*
 makePizza("Royal Grand", function deliverPizza(pizzaName) {
   console.log(`Delivering pizza ${pizzaName}.`);
 });
@@ -338,7 +338,7 @@ makePizza("Royal Grand", function deliverPizza(pizzaName) {
 makePizza("Ultracheese", function eatPizza(pizzaName){
           console.log(`Eating pizza ${pizzaName})`)
           });
-
+*/
 
 //metoda foreach na tablicy
 function calculateTotalPrice(orderedItems) {
@@ -372,3 +372,437 @@ const add = (a, b, c) => {
 };
 //ta samaa funkcja ale z niejawnym zwrotem (też zwraca wynik)
 const add2 = (a, b, c) => a + b + c;
+
+
+const calculateTotalPrice2 = (orderedItems)=> {
+  let totalPrice = 0;
+
+  orderedItems.forEach( (item)=> {
+    totalPrice += item;
+  });
+
+  return totalPrice;
+};
+//console.log(calculateTotalPrice2([1,2,3]));
+
+//3to przerobina na calback strzłka funkcji 2
+function calculateTotalPrice3 (orderedItems){
+  let totalPrice = 0;
+
+  orderedItems.forEach(function (item) {
+    totalPrice += item;
+  });
+
+  return totalPrice;
+};
+//console.log(calculateTotalPrice3([1,2,3]));
+//Działanie funkcji map (strzałki, niejawny zwrot)
+const planets = ["Earth", "Mars", "Venus", "Jupiter"];
+const planetsLengths = planets.map(planet12 => planet12.length);
+
+//Funkcja flatMap, scalenie tablic do jednej
+const books = [
+  {
+    title: "The Last Kingdom",
+    author: "Bernard Cornwell",
+    genres: ["adventure", "history"],
+  },
+  {
+    title: "Beside Still Waters",
+    author: "Robert Sheckley",
+    genres: ["fiction"],
+  },
+  {
+    title: "Redder Than Blood",
+    author: "Tanith Lee",
+    genres: ["horror", "mysticism"],
+  },
+];
+const genres = books.flatMap(n=>n.genres);
+
+
+//przyjmuje perametr users (tablice), która ma obiekty, robobimy tablice z pólobiektów name; /imiona stdtudentów zapisanych na kurs
+const getUserNames = users => users.map(n=>n.name);
+
+
+//Przykład z tablicą obiektów książek. Najpierw robimy scalenie tablic flat mapą po genres, 
+//Potem robimy ją brz powturzeń, filtrując tylko te wartości których index jezt zgodny z pierwszym wystąpieniem tego indeksu
+const books3 = [
+  {
+    title: "The Last Kingdom",
+    author: "Bernard Cornwell",
+    genres: ["adventure", "history"],
+  },
+  {
+    title: "Beside Still Waters",
+    author: "Robert Sheckley",
+    genres: ["fiction", "mysticism"],
+  },
+  {
+    title: "Redder Than Blood",
+    author: "Tanith Lee",
+    genres: ["horror", "mysticism", "adventure"],
+  },
+];
+const allGenres = books3.flatMap(n=>n.genres);
+const uniqueGenres = allGenres.filter( 
+  (course, index, array) => array.indexOf(course) === index
+);
+
+//przykładzik filtra
+let MIN_RATING=3;
+let AUTHOR="Ten kolo"
+const topRatedBooks = books.filter(n=>n.rating>=MIN_RATING);
+const booksByAuthor = books.filter(n=>n.author==AUTHOR);
+
+//następny przykład tym razem z jawnym zwrotem
+const getUsersWithAge = (users, minAge, maxAge) => {
+  return users.filter(n=>n.age>=minAge&&n.age<=maxAge)
+ 
+ };
+
+ //przykład filtra ze zwroetm nie jawnym tablisca obiektów, pole firendsName jest tablica imion
+ //Wyświetlamy wszystkich użytkowników majacych danego firendsName
+ const getUsersWithFriend = (users, friendName)=> users.filter( 
+  user=>user.friends.includes(friendName)
+                                                              
+);
+
+//tablica wszytkich przyjaciów z tablicy users (pola friends, które jest tablicą) bez powtórzeń
+const getFriends = (users) => users.flatMap(n=>n.friends).filter( 
+  (course, index, array) => array.indexOf(course) === index);
+
+//Na wszelki jeszcze jeden przykład flitra
+const getInactiveUsers = (users) => users.filter(user=>user.isActive==false);
+//przykłąd find
+let BOOK_TITLE="Fajna"
+const bookWithTitle = books.find(book=>book.title==BOOK_TITLE);
+//przykład every
+//Metoda every(callback) sprawdza, czy wszystkie elementy tablicy przechodzą test dostarczany przez funkcję callback. Zwraca true lub false.
+let thirdArray =[12,3,4];
+let secondArray =[12,3,4,6];
+const eachElementInThirdIsEven = thirdArray.every(v=>v%2==0);
+const eachElementInThirdIsOdd = thirdArray.every(v=>v%2==1);
+//Metoda some(callback) sprawdza, czy choć jeden element tablicy przechodzi test dostarczony przez funkcję callback. Zwraca true lub false.
+//przyklad some
+const anyElementInSecondIsEven = secondArray.some(v=>v%2==0);
+const anyElementInSecondIsOdd = secondArray.some(v=>v%2==1);
+/*Metoda reduce(callback, initialValue) wykorzystywana jest do przetwarzania sekwencyjnego każdego elementu tablicy z zapisywaniem pośredniego rezultatu (zmiennej)
+const total = [2, 7, 3, 14, 6].reduce((previousValue, number) => {
+  return previousValue + number;
+}, 0);
+
+console.log(total); // 32
+To znaczy metoda reduce() jest wykorzystywana, gdy potrzeba jest wziąć "wiele" i sprowadzić to do "jednego".
+tablica.reduce((previousValue, element, index, array) => {
+// Ciało funkcji callback
+}, initialValue);
+
+PRzykład reduce
+*/
+let playtimes=[2,3,4];
+const totalPlayTime = playtimes.reduce((pValue, Time)=>{return pValue+Time},0);
+
+const players = [
+  { name: "Mango", playtime: 1270, gamesPlayed: 4 },
+  { name: "Poly", playtime: 469, gamesPlayed: 2 },
+  { name: "Ajax", playtime: 690, gamesPlayed: 3 },
+  { name: "Kiwi", playtime: 241, gamesPlayed: 1 },
+]; players.
+// Change code below this line
+
+const totalAveragePlaytimePerGame = players.reduce((pValue, player)=>{
+  return pValue+(player.playtime/player.gamesPlayed);
+},0);
+
+//console.log(totalAveragePlaytimePerGame);
+
+//PRzykład PAMIETAJ O RETURN! (tutaj 2strzałki, 2 return)
+const calculateTotalBalance = users => {
+  return users.reduce((pValue, user)=>{
+    //console.log(pValue, user.balance);
+ return pValue+user.balance;
+},0); 
+};
+/*console.log(calculateTotalBalance([
+  {
+    name: "Moore Hensley",
+    email: "moorehensley@indexia.com",
+    eyeColor: "blue",
+    friends: ["Sharron Pace"],
+    isActive: false,
+    balance: 2811,
+    gender: "male"
+  },
+  {
+    name: "Sharlene Bush",
+    email: "sharlenebush@tubesys.com",
+    eyeColor: "blue",
+    friends: ["Briana Decker", "Sharron Pace"],
+    isActive: true,
+    balance: 3821,
+    gender: "female"
+  },
+]));
+*/
+
+/*Metoda sort() sortuje elementy tablicy, ale w odróżnieniu od pozostałych iterujacych metod, robi to na oryginalnej tablicy.
+Domyślnie sortuje w porządku rosnącym. Sortowanie odbywa się drogą sprowadzenia wartości do łańcucha i porównania numerów porządkowych w tabeli Unicode.
+Tablica słów sortuje się w porządku alfabetycznym.
+Przy tym numer porządkowy małych liter jest mniejszy niż wielkich.
+Prosty przykąłd sortu po autorach, zachwując kopie tablicy arginalnie
+const alphabeticalAuthors = [...authors].sort();
+
+tablica.sort((a, b) => {
+  // Callback function body
+});
+Metoda sort() będzie wywoływać ją dla dwóch dowolnych elementów.
+a- pierwszy element do porównania.
+b - drugi
+Jeśli wywołanie compareFunction(a, b) zwraca dowolną negatywną wartość, to znaczy a jest mniejsze niż b, 
+sortowanie umieści a przed b. To sortowanie w porządku rosnącym.
+const scores = [61, 19, 74, 35, 92, 56];
+const ascendingScores = [...scores].sort((a, b) => a - b);
+console.log(ascendingScores); // [19, 35, 56, 61, 74, 92]
+
+Jeśli wywołanie compareFunction(a, b) zwraca dowolną pozytywną wartość większą od zera, to znaczy b jest większe niż a, 
+sortowanie umieści b przed a. To sortowanie w porządku malejącym.
+
+const scores = [61, 19, 74, 35, 92, 56];
+const descendingScores = [...scores].sort((a, b) => b - a);
+console.log(descendingScores); // [92, 74, 61, 56, 35, 19]
+
+Do sortowania łańcuchów w porządku alfabetycznym, 
+rosnąco lub malejąco, wykorzystuje się metodę łańcuchów localeCompare().
+firstString.localeCompare(secondString)
+Przykład:
+const inAlphabetOrder = [...students].sort((a, b) => a.localeCompare(b));
+*/
+
+/*Przykładzik na obiekcie
+const books = [
+  {
+    title: "The Last Kingdom",
+    author: "Bernard Cornwell",
+    rating: 8.38,
+  },];
+const sortedByReversedAuthorName = [...books].sort(
+  (a, b) => b.author.localeCompare(a.author)
+);
+
+const sortedByAscendingRating = [...books].sort(
+  (a, b) => a.rating - b.rating
+  );
+*/
+//przykład, uwaga, kompiluje się, jeden zwrot niejawny
+/*
+const sortByAscendingBalance = users => {
+  return users.sort(
+     (a,b)=>a.balance-b.balance
+    );
+};
+//uwaga na kopiowanie tablicy!
+const sortByDescendingFriendCount = users => {
+   return [...users].sort(
+   	(a,b)=>b.friends.length-a.friends.length
+   );
+};
+
+Na oryginalnej tablicy wywołujemy flatMap() i tworzymy wygładzoną tablicę wszystkich przedmiotów.
+Do rezultatu metody flatMap() przypisujemy metodę filter() dla filtrowania unikalnych elementów.
+Na rezultacie metody filter() wywołujemy sort().
+Zmiennej uniqueSortedCourses przypisuje się rezultat pracy metody sort().
+
+const uniqueSortedCourses = students
+  .flatMap(student => student.courses)
+  .filter((course, index, array) => array.indexOf(course) === index)
+  .sort((a, b) => a.localeCompare(b));
+
+  const names = books.filter(n=>n.rating>=MIN_BOOK_RATING).map(book=>book.author).sort((a,b)=>a.localeCompare(b));
+
+  const getSortedFriends = users => {
+return [...users]
+.flatMap(n=>n.friends)
+.filter((friend, index, array) => array.indexOf(friend) === index)
+.sort((a,b)=>a.localeCompare(b))
+;
+};
+last przykład
+const getTotalBalanceByGender = (users, gender) => {
+return [...users]
+  .filter(user=>user.gender===gender)
+  .reduce((pValue, user)=>pValue+user.balance,0);
+};
+*/
+//Ta bum MODUŁ 5
+/*Sprawdzanie prototypów, na wszelki
+const animal = {
+  legs: 4,
+};
+const dog = Object.create(animal);
+dog.name = "Mango";
+
+console.log(dog); // { name: 'Mango', __proto__: animal }
+console.log(animal.isPrototypeOf(dog)); // true
+console.log(dog.hasOwnProperty("name")); // true
+console.log(dog.name); // 'Mango'
+
+console.log(dog.hasOwnProperty("legs")); // false
+console.log(dog.legs); // 4
+
+PRzykładzik klasy
+  class Storage {
+    items=[];
+constructor(items) {
+    this.items = items;
+  }
+  	getItems() {
+    	return this.items;
+  	}
+
+	addItem(newItem){
+      this.items.push(newItem);
+	}
+
+    removeItem(itemToRemove){
+      const index = this.items.indexOf(itemToRemove);
+     this.items.splice(index, 1);
+    }
+}
+
+
+const storage = new Storage(["Nanitoids", "Prolonger", "Antigravitator"]);
+console.log(storage.getItems()); // ["Nanitoids", "Prolonger", "Antigravitator"]
+storage.addItem("Droid");
+console.log(storage.getItems()); // ["Nanitoids", "Prolonger", "Antigravitator", "Droid"]
+storage.removeItem("Prolonger");
+console.log(storage.getItems()); // ["Nanitoids", "Antigravitator", "Droid"]
+//głupie to, że się namęczyłem, więc wklejam kalsę 2
+class StringBuilder{
+  value;
+  constructor(initialValue){
+    this.value=initialValue;
+  }
+ getValue(){
+ return this.value;
+ }
+  padEnd(str){
+  this.value+=str;
+  }
+  padStart(str){
+  this.value=str+this.value;
+  }
+  padBoth(str){
+  this.value=str+this.value+str;
+  }
+
+}
+// Change code above this line
+const builder = new StringBuilder(".");
+console.log(builder.getValue()); // "."
+builder.padStart("^");
+console.log(builder.getValue()); // "^."
+builder.padEnd("^");
+console.log(builder.getValue()); // "^.^"
+builder.padBoth("=");
+console.log(builder.getValue()); // "=^.^="
+
+Prywatna, klasa usera przykład
+
+class User {
+  // Nieobowiązkowe zadeklarowanie publicznych właściwości
+  name;
+  // Obowiązkowe zadeklarowanie prywatnych właściwości
+  #email;
+
+  constructor({ name, email }) {
+    this.name = name;
+    this.#email = email;
+  }
+
+  getEmail() {
+    return this.#email;
+  }
+
+  changeEmail(newEmail) {
+    this.#email = newEmail;
+  }
+}
+opcjonalne usuwanie
+  removeItem(itemToRemove) {
+    this.#items = this.#items.filter(item => item !== itemToRemove);
+  }
+}
+Przkład statik, setter, getter
+class Car {
+
+  #price;
+static  MAX_PRICE=50000;
+            
+  constructor({ price }) {
+    this.#price = price;
+  }
+
+  get price() {
+    return this.#price;
+  }
+
+  set price(newPrice) {
+    if(newPrice<=50000){
+    this.#price = newPrice;
+    }
+  }
+  // Change code above this line
+}
+*/
+/*last przykład
+class User {
+  email;
+
+  constructor(email) {
+    this.email = email;
+  }
+
+  get email() {
+    return this.email;
+  }
+
+  set email(newEmail) {
+    this.email = newEmail;
+  }
+}
+class Admin extends User {
+  // Change code below this line
+
+  blacklistedEmails=[];
+  static AccessLevel = {
+    BASIC: "basic",
+    SUPERUSER: "superuser",
+  };
+  constructor({ email, accessLevel, blacklistedEmails}) {
+    super(email);
+    this.accessLevel = accessLevel;
+    //this.blacklistedEmails=blacklistedEmails;
+  }
+blacklist(email){
+  this.blacklistedEmails.push(email);
+}
+  isBlacklisted(email){
+    return this.blacklistedEmails.includes(email);
+  }
+  // Change code above this line
+}
+
+const mango = new Admin({
+  email: "mango@mail.com",
+  accessLevel: Admin.AccessLevel.SUPERUSER,
+});
+
+console.log(mango.email); // "mango@mail.com"
+console.log(mango.accessLevel); // "superuser"
+
+mango.blacklist("poly@mail.com");
+console.log(mango.blacklistedEmails); // ["poly@mail.com"]
+console.log(mango.isBlacklisted("mango@mail.com")); // false
+console.log(mango.isBlacklisted("poly@mail.com")); // true
+*/
